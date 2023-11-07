@@ -6,17 +6,18 @@
 </head>
 <body>
     <script src="https://unpkg.com/vue@next"></script>
-    <div id="app"></div>
+    <div id="app">
+        
+    </div>
     <script>
         const vm = Vue.createApp({
             data(){
                 return {
-                    text: "<p>Hola men</p>"
+                    attr: "src",
+                    img: "https://logos.flamingtext.com/Word-Logos/cualquier-cosa-design-china-name.png" 
                 };
             },
-            template: `
-            <div v-html='text'>{{ text }}</div>
-            `
+            template: `<img  v-bind:[attr]="img" v-bind:alt="img">`
         }).mount("#app");
 
         console.log(vm)
