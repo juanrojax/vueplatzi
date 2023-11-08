@@ -49,3 +49,54 @@ const vm = Vue.createApp({
         }).mount("#app");
 ```
 Directivas en Vue: https://vuejs.org/api/built-in-directives.html
+
+### ATRIBUTOS REACTIVOS
+La directiva v-bind permite modificar los atributos.de forma dinamica ejemplo:
+```javascript
+const vm = Vue.createApp({
+            data(){
+                return {
+                   img: "https://logos.flamingtext.com/Word-Logos/cualquier-cosa-design-china-name.png"
+                };
+            },
+            template: `<img  v-bind:src="img" v-bind:alt="img">`
+        }).mount("#app");
+```
+Los atributos después de Vue.js 3 se pueden cambiar a variables, por ejemplo un atributo como lo es src se puede cambiar para usarlo con una variable, ejemplo:
+```javascript
+data(){
+                return {
+                    attr: "src",
+                    img: "https://logos.flamingtext.com/Word-Logos/cualquier-cosa-design-china-name.png"
+                };
+            },
+
+template: `<img  v-bind:[attr]="img" v-bind:alt="img">`
+```
+
+### EVENTOS DE USUARIO
+Existe una directiva para detectar eventos del usuario como lo es v-on, v-on escucha los eventos de DOM y ejecuta JavaScript cuando se activa
+Por ejemplo:
+```javascript
+const vm = Vue.createApp({
+            data(){
+                return {
+                    counter: 0
+                };
+            },
+            methods:{
+                increment(){
+                    console.log("CLick")
+                }
+            },
+            template: `<button v-on:click="increment">{{counter}}</button>`
+        }).mount("#app");
+```
+
+v-on tiene una serie de eventos que se puede utilizar como clic, aqui una lista de eventos: https://es.vuejs.org/v2/guide/events
+Dentro de v-on también existen los modificadores de eventos como por ejemplo la necesidad de utilizar un preventDefault para que el formulario no se recargue se puede utilizar esto:
+```html
+<!-- El evento de enviar ya no volverá a cargar la página. -->
+    <form v-on:submit.prevent="onSubmit"></form>
+```
+Aqui hay un listado de los modificadores de eventos: https://es.vuejs.org/v2/guide/events#Modificadores-de-eventos
