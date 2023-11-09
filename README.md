@@ -100,3 +100,64 @@ Dentro de v-on también existen los modificadores de eventos como por ejemplo la
     <form v-on:submit.prevent="onSubmit"></form>
 ```
 Aqui hay un listado de los modificadores de eventos: https://es.vuejs.org/v2/guide/events#Modificadores-de-eventos
+
+### INPUTS REACTIVOS
+Es una forma de ver cómo vue.js se encarga de sincronizar la vista con el modelo de una forma sencilla.
+Ejemplo:
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "HOLA MEN"
+        };
+    },
+    methods:{
+        input(e){
+            this.text = e.target.value;
+        }
+    },
+    template: `<p>{{text}}</p>
+        <input type="text" v-on:change="input" v-bind:value="text">
+    `
+}).mount("#app");
+```
+
+v-on y v-bind permiten usarse con alias, ejemplo:
+```html
+<input type="text" @:change="input":value="text">
+```
+Atributos -> :
+Eventos -> @
+Otra forma de escribir menos código es combinar dos directivas en una como lo es v-model
+Ejemplo:
+```html
+<input type="text" v-model="text">
+```
+
+### PROPRIEDADES COMPUTADAS
+Son características de vue que permiten transformar o realizar cálculos sobre nuestros datos y luego reutilizar fácilmente el resultado como una variable en nuestro template o data. La ventaja que tienen las propiedades computadas es que son reactivas.
+Ejemplo:
+```javascript
+const vm = Vue.createApp({
+    data() {
+        return {
+            firstName: "Juan",
+            lastName: "Rojas",
+            now: new Date()
+        };
+    },
+    computed: {
+        fullName() {
+            return this.firstName + " " + this.lastName;
+        },
+        today() {
+            return this.now.toLocaleDateString();
+        }
+    },
+    template: `
+    <div>{{ fullName }}</div>
+    <div>{{ today }}</div>
+    `
+}).mount("#app");
+```
+
