@@ -7,19 +7,29 @@
 <body>
     <script src="https://unpkg.com/vue@next"></script>
     <div id="app"></div>
+    
     <script>
         const vm = Vue.createApp({
-            data(){
+            data() {
                 return {
-                    text: "<p>Hola men</p>"
+                    firstName: "Juan",
+                    lastName: "Rojas",
+                    now: new Date()
                 };
             },
+            computed: {
+                fullName() {
+                    return this.firstName + " " + this.lastName;
+                },
+                today() {
+                    return this.now.toLocaleDateString();
+                }
+            },
             template: `
-            <div v-html='text'>{{ text }}</div>
+            <div>{{ fullName }}</div>
+            <div>{{ today }}</div>
             `
         }).mount("#app");
-
-        console.log(vm)
     </script>
 </body>
 </html>
