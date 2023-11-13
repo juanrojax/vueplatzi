@@ -160,4 +160,175 @@ const vm = Vue.createApp({
     `
 }).mount("#app");
 ```
+### WATCHERS
+En ocasiones solo quieres escuchar cambios y empezar actuar sobre el, para que un watcher funcione la función definida enel watch debe tener el mismo nombre que la variable:
+Ejemplo:
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Hola men"
+        };
+    },
+    watch: {
+        text(value,old){
+            console.log("wath",value,old);
+        }
+    },
+    template: `{{ text }}`
+}).mount("#app");
+```
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Puerta cerrada",
+            open: false
+        };
+    },
+    computed:{
+        label(){
+            return this.open ? "Cerra":"Abrir"
+        }
+    },
+    watch: {
+        open(value){
+            if (value) {
+                this.text = "Puerta abierta"
+            }else{
+                this.text = "Puerta cerrada"
+            }
+        }
+    },
+    template: `<div>{{ text }}</div>
+        <button @click="open=!open">{{ label }}</button>`
+}).mount("#app");
+```
+### ESTILOS REACTIVOS
+Existen dos directivas para lograr estilos reactivos con vue.js que son style y class.
+Ejemplo usando :style
+```html
+<style>
+    .closed {
+        background-color: #eca1a6;
+    }
+    .open {
+        background-color: #b5e7a0;
+    }
+</style>
+```
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Puerta cerrada",
+            open: false,
+            styles: {
+                backgroundColor: "#eca1a6"
+            }
+        };
+    },
+    computed:{
+        label(){
+            return this.open ? "Cerra":"Abrir"
+        }
+    },
+    watch: {
+        open(value){
+            if (value) {
+                this.text = "Puerta abierta";
+                this.styles.backgroundColor= "#b5e7a0"
+            }else{
+                this.text = "Puerta cerrada"
+                this.styles.backgroundColor= "#eca1a6"
+            }
+        }
+    },
+    template: `<div class="container" :style="styles">
+            <h2>{{ text }}</h2>
+            <button @click="open=!open">{{ label }}</button>
+        </div>
+        `
+}).mount("#app");
+```
+Ejemplo usando :class
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Puerta cerrada",
+            open: false
+        };
+    },
+    computed:{
+        label(){
+            return this.open ? "Cerra":"Abrir"
+        },
+        styles(){
+            return this.open ? ['open']:['closed']
+        }
+    },
+    watch: {
+        open(value){
+            if (value) {
+                this.text = "Puerta abierta";
+            }else{
+                this.text = "Puerta cerrada"
+            }
+        }
+    },
+    template: `<div class="container" :class="styles">
+            <h2>{{ text }}</h2>
+            <button @click="open=!open">{{ label }}</button>
+        </div>
+        `
+}).mount("#app");
+```
 
+### CONDICIONALES
+También se pueden utilizar condicionales dentro de los template, dentro de los componentes, para eso vue.js nos da v-if y v-else
+Ejemplo:
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Sesión cerrada",
+            open: false,
+            username:""
+        };
+    },
+    computed:{
+        label(){
+            return this.open ? "Cerra":"Abrir"
+        },
+        styles(){
+            return this.open ? ['open']:['closed']
+        }
+    },
+    watch: {
+        open(value){
+            if (value) {
+                this.text = "Cierra sesión";
+            }else{
+                this.text = "Abre sesión";
+                this.username = ""
+            }
+        }
+    },
+    template: `<div class="container" :class="styles">
+            <h2>{{ text }}</h2>
+            <div v-if="open">
+                <p>Hola, {{ username }}</p>    
+            </div>
+            <div v-else>
+                <label>Username</label>
+                <input type="text" v-model="username"/>
+            </div>
+            <button @click="open=!open">
+                <div v-if="!open">Acceder</div>
+                <div v-else>Salir</div>
+            </button>
+        </div>
+        `
+}).mount("#app");
+```
