@@ -3,6 +3,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        html, body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #app, .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: white;
+            padding: 8px 24px;
+            border-radius: 12px;
+        }
+        .closed {
+            background-color: #eca1a6;
+        }
+        .open {
+            background-color: #b5e7a0;
+        }
+    </style>
 </head>
 <body>
     <script src="https://unpkg.com/vue@next"></script>
@@ -19,19 +47,25 @@
             computed:{
                 label(){
                     return this.open ? "Cerra":"Abrir"
+                },
+                styles(){
+                    return this.open ? ['open']:['closed']
                 }
             },
             watch: {
                 open(value){
                     if (value) {
-                        this.text = "Puerta abierta"
+                        this.text = "Puerta abierta";
                     }else{
                         this.text = "Puerta cerrada"
                     }
                 }
             },
-            template: `<div>{{ text }}</div>
-                <button @click="open=!open">{{ label }}</button>`
+            template: `<div class="container" :class="styles">
+                    <h2>{{ text }}</h2>
+                    <button @click="open=!open">{{ label }}</button>
+                </div>
+                `
         }).mount("#app");
     </script>
 </body>
