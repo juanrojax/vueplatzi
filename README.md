@@ -332,3 +332,72 @@ const vm = Vue.createApp({
         `
 }).mount("#app");
 ```
+
+### LISTAS
+Otra de las funcionalidades esenciales de Vue.js es la posibilidad de mapear o imprimir arrays de elementos con la directiva v-for y mostrarlo en forma de listas.
+La directiva v-for requiere de una sintaxis específica para recorrer un array item in items, lo que viene a ser cada elemento del conjunto de elementos
+EJEMPLO:
+```javascript
+const vm = Vue.createApp({
+    data(){
+        return {
+            text: "Sesión cerrada",
+            open: false,
+            username:"",
+            posts: [
+                {
+                title: "Titulo 1",
+                description: "Descripción UNO"
+                },
+                {
+                title: "Titulo 2",
+                description: "Descripción DOS"
+                },
+                {
+                title: "Titulo 3",
+                description: "Descripción TRES"
+                }
+            ]
+        };
+    },
+    computed:{
+        label(){
+            return this.open ? "Cerra":"Abrir"
+        },
+        styles(){
+            return this.open ? ['open']:['closed']
+        }
+    },
+    watch: {
+        open(value){
+            if (value) {
+                this.text = "Cierra sesión";
+            }else{
+                this.text = "Abre sesión";
+                this.username = ""
+            }
+        }
+    },
+    template: `<div class="container" :class="styles">
+            <h2>{{ text }}</h2>
+            <div v-if="open">
+                <p>Hola, {{ username }}</p>
+                <div class="list">
+                    <div v-for="item in posts" class="item">
+                        <div  class="tittle">{{item.title}}</div>
+                        <p>{{item.description}}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <div>Username</div>
+                <input type="text" v-model="username"/>
+            </div>
+            <button @click="open=!open">
+                <div v-if="!open">Acceder</div>
+                <div v-else>Salir</div>
+            </button>
+        </div>
+        `
+}).mount("#app");
+```
