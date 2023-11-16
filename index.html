@@ -8,18 +8,33 @@
     <script src="https://unpkg.com/vue@next"></script>
     <div id="app"></div>
     <script>
-        const vm = Vue.createApp({
-            data(){
-                return {
-                    text: "<p>Hola men</p>"
-                };
-            },
+        const app = Vue.createApp({
             template: `
-            <div v-html='text'>{{ text }}</div>
+                <div>
+                    <v-layout>
+                        <template v-slot:header>
+                            <h2>Titulo</h2>
+                        </template>
+                        <template v-slot:content>
+                            Hola MEN
+                        </template>
+                    </v-layout>    
+                </div>
             `
-        }).mount("#app");
+        })
 
-        console.log(vm)
+        app.component("v-layout",{
+            template:`
+                <header>
+                    <slot name="header"></slot>    
+                </header>
+                <div>
+                    <slot name="content"></slot>
+                </div>
+            `
+        })
+        
+        const vm = app.mount("#app");
     </script>
 </body>
 </html>
